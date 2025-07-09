@@ -2,5 +2,6 @@ import { IUserInput, IUserDB, IUserFindByEmailAndUsername } from '&/application/
 
 export interface UserRepository {
   create(user: IUserInput): Promise<IUserDB>;
+  update(user: IUserDB, id: number): Promise<[affectedCount: number]>;
   findByEmailAndUsername(body: IUserFindByEmailAndUsername): Promise<IUserDB | null>;
 }

@@ -1,4 +1,4 @@
-import { createObjectZod, z } from '&/infrastructure/zod/index';
+import { createObject, z } from '&/infrastructure/validation/index';
 
 const options = {
   email: z.string().min(1, { message: 'El email es obligatorio' }).email({ message: 'Formato de email inválido.' }),
@@ -9,4 +9,4 @@ const options = {
     .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])/, { message: 'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.' }),
 };
 
-export default createObjectZod(options);
+export default createObject(options);

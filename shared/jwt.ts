@@ -6,4 +6,4 @@ const EXPIRATION_TIME = jwtConfig.EXPIRATION_TIME;
 
 export const generateToken = (payload: object): string => jwt.sign(payload, JWT_SECRET, { expiresIn: EXPIRATION_TIME });
 
-export const decodedToken = <T>(token: string): T => jwt.verify(token, JWT_SECRET) as T;
+export const decodedToken = <T>(token: string): any => jwt.verify(token, JWT_SECRET) as T;

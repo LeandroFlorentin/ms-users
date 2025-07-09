@@ -1,16 +1,15 @@
-import { Request, Response, NextFunction } from 'express';
-import { createUser, getUserByEmailOrUser } from '&/application/use-cases/user';
+import { Response, NextFunction } from 'express';
+import { createUser, updateUser, getUserByEmailOrUser } from '&/application/use-cases/user';
 import { userRepository } from '&/infrastructure/database/repositories/user.repository.impl';
-import { IUserInput, IQueryInput } from '&/application/dtos/users/users.dto';
-import buildLogger from '&/infrastructure/winston';
-import { RequestWithUsername } from '&/types/express';
+import { cacheRepository } from '&/infrastructure/cache/repositories/cache.repository.impl';
+import buildLogger from '&/infrastructure/logs';
+import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser } from '&/types/express';
 
 const logger = buildLogger('users');
 
-export const createUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const createUserHandler = async (req: RequestWithUserBody, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const body = (req.body as IUserInput) || {};
-    const user = await createUser(userRepository, body);
+    const user = await createUser(userRepository, cacheRepository, req.body);
     const { password, ...restUser } = user;
     logger.log(restUser);
     res.status(200).json(restUser);
@@ -20,10 +19,20 @@ export const createUserHandler = async (req: Request, res: Response, next: NextF
   }
 };
 
+export const updateUserHandler = async (req: RequestWhenUpdateUser, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const user = req.user!;
+    await updateUser(userRepository, cacheRepository, req.body, Number(req.query.id), user);
+    logger.log(req.query.id);
+    res.status(200).json({ message: 'Usuario actualizado con exito' });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const getUserByEmailOrUserHandler = async (req: RequestWithUsername, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const query = (req.query as IQueryInput) || {};
-    const user = await getUserByEmailOrUser(userRepository, query);
+    const user = await getUserByEmailOrUser(userRepository, req.query);
     logger.log(user);
     res.status(200).json(user);
   } catch (error: any) {

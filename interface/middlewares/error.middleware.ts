@@ -1,32 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import { ZodError, manageMessageZod } from '&/infrastructure/zod/index';
-import buildLogger from '&/infrastructure/winston';
+import { ZodError, manageMessage } from '&/infrastructure/validation';
+import buildLogger from '&/infrastructure/logs';
 
 const logger = buildLogger('middlewareError');
 
-const jwtErrorNames = ['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'];
+const isJwtError = (err: any) => ['TokenExpiredError', 'JsonWebTokenError', 'NotBeforeError'].includes(err?.name);
 
-export const errorMiddleware = (err: any, req: Request, res: Response, next: NextFunction) => {
+const isZodError = (err: any): err is ZodError => err instanceof ZodError;
+
+export const errorMiddleware = (err: any, req: Request, res: Response, next: NextFunction): void => {
   logger.error(err.message);
 
-  if (jwtErrorNames.includes(err.name)) {
-    res.status(401).json({
-      errors: [err.message],
-    });
+  if (isJwtError(err)) {
+    res.status(401).json({ errors: [err.message] });
     return;
   }
 
-  if (err instanceof ZodError) {
-    res.status(400).json({
-      errors: manageMessageZod(err),
-    });
+  if (isZodError(err)) {
+    res.status(400).json({ errors: manageMessage(err) });
     return;
   }
 
   const status = err.code || err.status || 500;
-  let message = err.message || 'Internal Server Error';
-  res.status(status).json({
-    errors: [message],
-  });
+  const message = err.message || 'Internal Server Error';
+
+  res.status(status).json({ errors: [message] });
   return;
 };

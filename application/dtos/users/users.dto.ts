@@ -15,7 +15,7 @@ export interface IQueryGetUser {
 }
 
 export interface IQueryInput {
-  username: string;
+  username?: string;
 }
 
 export type ReturnFindUserOrEmail = { username: string } | { email: string };

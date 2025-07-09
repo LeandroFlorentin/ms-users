@@ -8,9 +8,13 @@ export const userRepository: UserRepository = {
     const newUser = await UserModel.create(user);
     return newUser.toJSON() as IUserDB;
   },
+  async update(user: IUserDB, id: number): Promise<[affectedCount: number]> {
+    const updated = await UserModel.update(user, { where: { id } });
+    return updated;
+  },
   async findByEmailAndUsername(body: IUserFindByEmailAndUsername): Promise<IUserDB | null> {
     const obj = Object.entries(body).reduce<Record<string, any>>((acc, [key, value]) => {
-      acc[key] = { [Op.like]: value };
+      acc[key] = { [Op.iLike]: value };
       return acc;
     }, {});
     const user = (await UserModel.findOne({ where: { [Op.or]: obj } })) as { dataValues: IUserDB } | null;
