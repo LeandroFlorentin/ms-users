@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from '&/types/express';
 import { ZodError, manageMessage } from '&/infrastructure/validation';
 import buildLogger from '&/infrastructure/logs';
 

@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { IUserInput, IUserDB } from '&/application/dtos/users/users.dto';
 
 export interface RequestWithUsername extends Request {
@@ -25,3 +25,7 @@ export interface RequestWithToken extends Request {
 export interface RequestTokenMiddleware extends Request {
   user?: IUserDB;
 }
+
+export interface RequestPermitsMiddleware extends RequestTokenMiddleware {}
+
+export { Request, Response, NextFunction };

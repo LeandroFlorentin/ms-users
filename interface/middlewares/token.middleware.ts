@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request } from 'express';
+import { NextFunction, Response } from '&/types/express';
 import { APIError, decodedToken } from '&/shared';
 import buildLogger from '&/infrastructure/logs/index';
 import { RequestTokenMiddleware } from '&/types/express';
@@ -7,10 +7,11 @@ const logger = buildLogger('middlewareToken');
 
 export const tokenMiddleware = (req: RequestTokenMiddleware, res: Response, next: NextFunction) => {
   const headers = req.headers.authorization;
-  if (!headers) manageError('No se envio headers.', 401);
+  if (!headers) manageError('Token no enviado.', 401);
   const parts = headers.split(' ');
   if (parts[0] !== 'Bearer' || parts.length !== 2) manageError('Formato de headers invalido.', 401);
   const token = parts[1];
+  if (!token) manageError('Token no enviado.', 401);
   const decoded = decodedToken(token);
   req.user = decoded;
   next();
