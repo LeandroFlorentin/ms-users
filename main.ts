@@ -6,6 +6,7 @@ import routes from './interface/routes/index';
 import { errorMiddleware } from './interface/middlewares/error.middleware';
 import { mainConfig } from './config';
 import { sequelize } from './infrastructure/database';
+import implementaDocumentation from './infrastructure/documentation/documentation';
 
 const { PORT } = mainConfig;
 
@@ -21,6 +22,7 @@ async function initializateApp() {
     await sequelize.authenticate();
     await sequelize.sync({ force: true });
     app.listen(PORT, () => {
+      implementaDocumentation(app, PORT);
       console.log(`Servidor funcionando en puerto ${PORT}`);
     });
   } catch (error) {
