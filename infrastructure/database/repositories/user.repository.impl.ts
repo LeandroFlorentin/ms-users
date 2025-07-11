@@ -12,6 +12,10 @@ export const userRepository: UserRepository = {
     const updated = await UserModel.update(user, { where: { id } });
     return updated;
   },
+  async getById(id: number): Promise<IUserDB | null> {
+    const user = await UserModel.findByPk(id);
+    return user;
+  },
   async findByEmailAndUsername(body: IUserFindByEmailAndUsername): Promise<IUserDB | null> {
     const obj = Object.entries(body).reduce<Record<string, any>>((acc, [key, value]) => {
       acc[key] = { [Op.iLike]: value };

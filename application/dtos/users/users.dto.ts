@@ -8,6 +8,8 @@ export interface IUserInput {
 
 export interface IUserDB extends UserAttributes {}
 
+export interface IUserDecodedToken extends Omit<IUserDB, 'password'> {}
+
 export type IUserFindByEmailAndUsername = { email?: string; username?: string };
 
 export interface IQueryGetUser {

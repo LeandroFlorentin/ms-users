@@ -6,7 +6,6 @@ const logger = buildLogger('permitsMiddleware');
 
 export const permitsMiddleware = (req: RequestPermitsMiddleware, res: Response, next: NextFunction): void => {
   const user = req.user!;
-  console.log(user.role);
   const isAdmin = user.role.some((permit) => permit.toLowerCase() === 'admin');
   if (isAdmin) return next();
   if (Number(user.id) === Number(req.query.id)) return next();

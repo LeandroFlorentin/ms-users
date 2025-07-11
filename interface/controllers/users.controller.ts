@@ -1,9 +1,9 @@
-import { Response, NextFunction } from 'express';
-import { createUser, updateUser, getUserByEmailOrUser } from '&/application/use-cases/user';
+import { Response, NextFunction, RequestHandler } from 'express';
+import { createUser, updateUser, getByIdUser, getUserByEmailOrUser } from '&/application/use-cases/user';
 import { userRepository } from '&/infrastructure/database/repositories/user.repository.impl';
 import { cacheRepository } from '&/infrastructure/cache/repositories/cache.repository.impl';
 import buildLogger from '&/infrastructure/logs';
-import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser } from '&/types/express';
+import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser, RequestWithIdQuery } from '&/types/express';
 
 const logger = buildLogger('users');
 
@@ -25,6 +25,16 @@ export const updateUserHandler = async (req: RequestWhenUpdateUser, res: Respons
     await updateUser(userRepository, cacheRepository, req.body, Number(req.query.id), user);
     logger.log(req.query.id);
     res.status(200).json({ message: 'Usuario actualizado con exito' });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getByIdUserHandler = async (req: RequestWithIdQuery, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const userReq = req.user!;
+    const user = await getByIdUser(userRepository, cacheRepository, Number(req.query.id), userReq);
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }

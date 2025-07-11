@@ -1,31 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
-import { IUserInput, IUserDB } from '&/application/dtos/users/users.dto';
+import { IUserInput, IUserDB, IUserDecodedToken } from '&/application/dtos/users/users.dto';
 
-export interface RequestWithUsername extends Request {
-  query: {
-    username?: string;
-  };
-}
-
-export interface RequestWithUserBody extends Request {
-  body: IUserInput;
-}
-
-export interface RequestWhenUpdateUser extends Request, RequestTokenMiddleware {
-  query: {
-    id: string;
-  };
-  body: IUserDB;
-}
-
-export interface RequestWithToken extends Request {
+type TokenType = {
   token?: string;
-}
+};
 
-export interface RequestTokenMiddleware extends Request {
-  user?: IUserDB;
-}
+type UserType = {
+  user?: IUserDecodedToken;
+};
 
-export interface RequestPermitsMiddleware extends RequestTokenMiddleware {}
+export type RequestWithUser<Q = any, B = any> = Request<any, any, B, Q>;
+
+export type RequestWithUsername = RequestWithUser<{ username?: string }>;
+
+export type RequestWithUserBody = RequestWithUser<any, IUserInput>;
+
+export type RequestWithIdQuery = RequestWithUser<{ id: string }> & UserType;
+
+export type RequestWhenUpdateUser = RequestWithUser<{ id: string }, IUserDB> & UserType;
+
+export type RequestWithToken = RequestWithUser & TokenType & UserType;
+
+export type RequestPermitsMiddleware = RequestWithUser & TokenType & UserType;
 
 export { Request, Response, NextFunction };
