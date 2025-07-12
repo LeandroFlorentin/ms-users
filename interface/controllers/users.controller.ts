@@ -1,9 +1,9 @@
-import { Response, NextFunction, RequestHandler } from 'express';
-import { createUser, updateUser, getByIdUser, getUserByEmailOrUser } from '&/application/use-cases/user';
+import { Response, NextFunction } from 'express';
+import { createUser, updateUser, getByIdUser, getUserByEmailOrUser, getUsers, deleteUser } from '&/application/use-cases/user';
 import { userRepository } from '&/infrastructure/database/repositories/user.repository.impl';
 import { cacheRepository } from '&/infrastructure/cache/repositories/cache.repository.impl';
 import buildLogger from '&/infrastructure/logs';
-import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser, RequestWithIdQuery } from '&/types/express';
+import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser, RequestWithIdQuery, RequestGetUsers } from '&/types/express';
 
 const logger = buildLogger('users');
 
@@ -34,7 +34,29 @@ export const getByIdUserHandler = async (req: RequestWithIdQuery, res: Response,
   try {
     const userReq = req.user!;
     const user = await getByIdUser(userRepository, cacheRepository, Number(req.query.id), userReq);
+    logger.log(user);
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUsersHandler = async (req: RequestGetUsers, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const users = await getUsers(userRepository, req.query);
+    logger.log(users);
+    res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteUserHandler = async (req: RequestWithIdQuery, res: Response, next: NextFunction) => {
+  try {
+    const user = req.user!;
+    await deleteUser(userRepository, cacheRepository, Number(req.query.id), user);
+    logger.log(`Usuario ${user.username} eliminado con éxito.`);
+    res.status(200).json({ message: `Usuario ${user.username} eliminado con éxito.` });
   } catch (error) {
     next(error);
   }

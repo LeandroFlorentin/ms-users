@@ -6,6 +6,8 @@ export interface IUserInput {
   password: string;
 }
 
+export interface IFilterGetUsers extends Omit<UserAttributes, 'password' | 'id' | 'role' | 'updatedAt' | 'createdAt'> {}
+
 export interface IUserDB extends UserAttributes {}
 
 export interface IUserDecodedToken extends Omit<IUserDB, 'password'> {}

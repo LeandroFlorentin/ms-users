@@ -1,7 +1,7 @@
 import { UserRepository } from '&/domain/user/user.repository';
-import { IUserInput, IUserDB, IUserFindByEmailAndUsername } from '&/application/dtos/users/users.dto';
+import { IUserInput, IUserDB, IUserFindByEmailAndUsername, IFilterGetUsers } from '&/application/dtos/users/users.dto';
+import Op, { setFilterForSequelize, setFilterForFindUserSequelize } from '../helpers';
 import { UserModel } from '../models/user.model';
-import { Op } from 'sequelize';
 
 export const userRepository: UserRepository = {
   async create(user: IUserInput): Promise<IUserDB> {
@@ -16,11 +16,17 @@ export const userRepository: UserRepository = {
     const user = await UserModel.findByPk(id);
     return user;
   },
+  async get(filters: IFilterGetUsers): Promise<IUserDB[]> {
+    const sequelizeFilter = setFilterForSequelize(filters);
+    const users = await UserModel.findAll({ where: sequelizeFilter, attributes: { exclude: ['password'] } });
+    return users;
+  },
+  async delete(id: number): Promise<number> {
+    const deletedUser = await UserModel.destroy({ where: { id: id } });
+    return deletedUser;
+  },
   async findByEmailAndUsername(body: IUserFindByEmailAndUsername): Promise<IUserDB | null> {
-    const obj = Object.entries(body).reduce<Record<string, any>>((acc, [key, value]) => {
-      acc[key] = { [Op.iLike]: value };
-      return acc;
-    }, {});
+    const obj = setFilterForFindUserSequelize(body);
     const user = (await UserModel.findOne({ where: { [Op.or]: obj } })) as { dataValues: IUserDB } | null;
     return user ? (user.dataValues as IUserDB) : null;
   },

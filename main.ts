@@ -20,7 +20,7 @@ app.use(errorMiddleware);
 async function initializateApp() {
   try {
     await sequelize.authenticate();
-    await sequelize.sync({ force: true });
+    //await sequelize.sync({ force: true });
     app.listen(PORT, () => {
       implementaDocumentation(app, PORT);
       console.log(`Servidor funcionando en puerto ${PORT}`);

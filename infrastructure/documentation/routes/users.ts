@@ -219,6 +219,7 @@ export default [
     object: {
       get: {
         tags: ['Usuarios'],
+        description: 'Endpoint encargado de traer datos de un usuario especifico. Solo usuarios administradores podran traer informacion de usuarios diferentes al suyo.',
         parameters: [
           {
             name: 'id',
@@ -233,7 +234,6 @@ export default [
             bearerAuth: [],
           },
         ],
-        description: 'Endpoint encargado de traer datos de un usuario especifico.',
         responses: {
           200: {
             description: 'Success',
@@ -309,6 +309,172 @@ export default [
                   },
                   example: {
                     errors: ['Token no enviado.'],
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    path: '/users/get_users',
+    object: {
+      get: {
+        tags: ['Usuarios'],
+        description: 'Endpoint encargado de traer un listado de usuarios, solo puede utilizarlo usuarios administradores.',
+        parameters: [
+          {
+            in: 'query',
+            name: 'username',
+            required: false,
+            schema: { type: 'string' },
+          },
+          {
+            in: 'query',
+            name: 'email',
+            required: false,
+            schema: { type: 'string' },
+          },
+        ],
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'array',
+                  items: {
+                    role: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                    createdAt: {
+                      type: 'string',
+                    },
+                    updatedAt: {
+                      oneOf: [{ type: 'string' }, { type: 'null' }],
+                    },
+                    id: {
+                      type: 'number',
+                    },
+                    email: { type: 'string' },
+                    username: { type: 'string' },
+                  },
+                  example: [
+                    {
+                      role: ['USER'],
+                      createdAt: '2025-07-12T12:59:56.332Z',
+                      updatedAt: null,
+                      id: 1,
+                      email: 'leandro.florentin@gmail.com',
+                      username: 'leandro5466',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+          401: {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    errors: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    errors: ['Token no enviado.'],
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    path: '/users/delete_user',
+    object: {
+      delete: {
+        tags: ['Usuarios'],
+        description: 'Endpoint encargado de la eliminacion de usuarios. Solo el usuario admin podra eliminar usuarios que no sean el suyo.',
+        security: [{ bearerAuth: [] }],
+        parameters: [
+          {
+            in: 'query',
+            name: 'id',
+            schema: { type: 'number' },
+            required: true,
+            example: 1,
+          },
+        ],
+        responses: {
+          200: {
+            type: 'ojbect',
+            content: {
+              'application/json': {
+                schema: {
+                  properties: {
+                    message: { type: 'string' },
+                  },
+                  example: {
+                    message: 'Usuario eliminado con éxito.',
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            type: 'object',
+            content: {
+              'application/json': {
+                schema: {
+                  properties: {
+                    errors: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    errors: ['No se envio id en el query.'],
+                  },
+                },
+              },
+            },
+          },
+          401: {
+            type: 'object',
+            content: {
+              'application/json': {
+                schema: {
+                  properties: {
+                    erros: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    erros: ['Token no enviado.'],
                   },
                 },
               },
