@@ -7,10 +7,10 @@ export const logger = winston.createLogger({
   transports: [new winston.transports.File({ filename: `error.log`, level: 'error' }), new winston.transports.File({ filename: `combined.log`, level: 'info' })],
 });
 
-const buildLogger = (service: string): { log: (message: string) => void; error: (message: string) => void } => {
+const buildLogger = (service: string): { log: (content: string | object | null) => void; error: (content: string | object | null) => void } => {
   return {
-    log: (message: string) => logger.log('info', { message, service }),
-    error: (message: string) => logger.error('error', { message, service }),
+    log: (content: string | object | null) => logger.log('info', { content, service }),
+    error: (content: string | object | null) => logger.error('error', { content, service }),
   };
 };
 
