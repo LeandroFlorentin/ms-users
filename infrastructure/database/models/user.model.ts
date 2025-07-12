@@ -10,9 +10,7 @@ export interface UserAttributes {
   createdAt: Date;
   updatedAt: Date | null;
 }
-
-interface UserCreationAttributes extends Omit<UserAttributes, 'id' | 'role' | 'createdAt' | 'updatedAt'> {}
-export class UserModel extends Model<UserAttributes, UserCreationAttributes> {
+export class UserModel extends Model<UserAttributes, Omit<UserAttributes, 'id' | 'role' | 'createdAt' | 'updatedAt'>> {
   declare id: number;
   declare username: string;
   declare email: string;

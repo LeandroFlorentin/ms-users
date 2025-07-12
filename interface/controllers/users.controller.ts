@@ -10,11 +10,11 @@ const logger = buildLogger('users');
 export const createUserHandler = async (req: RequestWithUserBody, res: Response, next: NextFunction): Promise<void> => {
   try {
     const user = await createUser(userRepository, cacheRepository, req.body);
-    const { password, ...restUser } = user;
+    const { password: _, ...restUser } = user;
     logger.log(restUser);
     res.status(200).json(restUser);
     return;
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };
@@ -67,7 +67,7 @@ export const getUserByEmailOrUserHandler = async (req: RequestWithUsername, res:
     const user = await getUserByEmailOrUser(userRepository, req.query);
     logger.log(user);
     res.status(200).json(user);
-  } catch (error: any) {
+  } catch (error) {
     next(error);
   }
 };

@@ -1,5 +1,9 @@
-import { Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction, Application } from 'express';
 import { IUserInput, IUserDB, IUserDecodedToken } from '&/application/dtos/users/users.dto';
+import { ZodError } from 'zod';
+import { APIError } from '&/shared';
+
+export type Error = ZodError | APIError;
 
 type TokenType = {
   token?: string;
@@ -27,4 +31,4 @@ export type RequestMiddlewareId = RequestGeneral<{ id: string }> & TokenType;
 
 export type RequestPermitsMiddleware = RequestGeneral<{ id: string }> & TokenType & UserType;
 
-export { Request, Response, NextFunction };
+export { Request, Response, NextFunction, Application };

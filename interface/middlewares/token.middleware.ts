@@ -1,6 +1,7 @@
 import { NextFunction, Response } from '&/types/express';
 import { APIError, decodedToken } from '&/shared';
 import { RequestWithToken } from '&/types/express';
+import { IUserDecodedToken } from '&/application/dtos/users/users.dto';
 
 export const tokenMiddleware = (req: RequestWithToken, res: Response, next: NextFunction) => {
   const headers = req.headers.authorization;
@@ -10,7 +11,7 @@ export const tokenMiddleware = (req: RequestWithToken, res: Response, next: Next
   const token = parts[1];
   if (!token) manageError('Token no enviado.');
   const decoded = decodedToken(token);
-  req.user = decoded;
+  req.user = decoded as IUserDecodedToken;
   next();
 };
 

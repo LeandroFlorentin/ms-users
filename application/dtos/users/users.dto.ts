@@ -6,11 +6,11 @@ export interface IUserInput {
   password: string;
 }
 
-export interface IFilterGetUsers extends Omit<UserAttributes, 'password' | 'id' | 'role' | 'updatedAt' | 'createdAt'> {}
+export type IFilterGetUsers = Omit<UserAttributes, 'password' | 'id' | 'role' | 'updatedAt' | 'createdAt'>;
 
-export interface IUserDB extends UserAttributes {}
+export type IUserDB = UserAttributes;
 
-export interface IUserDecodedToken extends Omit<IUserDB, 'password'> {}
+export type IUserDecodedToken = Omit<IUserDB, 'password'>;
 
 export type IUserFindByEmailAndUsername = { email?: string; username?: string };
 

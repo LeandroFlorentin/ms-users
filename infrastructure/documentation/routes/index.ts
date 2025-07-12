@@ -1,6 +1,6 @@
 import usersRoutes from './users';
 
-let paths: any = {};
+const paths: Record<string, object> = {};
 
 usersRoutes.forEach((route) => (paths[route.path] = route.object));
 

@@ -1,6 +1,7 @@
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import { configDocumentation } from '&/config';
+import { Application } from '&/types/express';
 import paths from './routes';
 
 const options = {
@@ -33,7 +34,7 @@ const options = {
 
 const openapiSpecification = swaggerJsdoc(options);
 
-const implementaDocumentation = (app: any, port: number) => {
+const implementaDocumentation = (app: Application, port: number) => {
   app.use('/documentation', swaggerUi.serve, swaggerUi.setup(openapiSpecification));
   console.log(`Ver documentación en: ${configDocumentation.URL_BASE}${port}/documentation`);
 };

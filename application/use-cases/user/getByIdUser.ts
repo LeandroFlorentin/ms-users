@@ -14,7 +14,7 @@ export const getByIdUser = async (userRepository: UserRepository, cacheRepositor
     await cacheRepository.setValue(userReturned.email, JSON.stringify(userReturned));
   }
   if (userReturned) {
-    const { password, ...restUser } = userReturned;
+    const { password: _, ...restUser } = userReturned;
     return restUser;
   }
   return userReturned;
