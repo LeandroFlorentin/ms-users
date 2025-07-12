@@ -9,18 +9,20 @@ type UserType = {
   user?: IUserDecodedToken;
 };
 
-export type RequestWithUser<Q = any, B = any> = Request<any, any, B, Q>;
+export type RequestGeneral<Q = any, B = any> = Request<any, any, B, Q>;
 
-export type RequestWithUsername = RequestWithUser<{ username?: string }>;
+export type RequestWithUsername = RequestGeneral<{ username?: string }>;
 
-export type RequestWithUserBody = RequestWithUser<any, IUserInput>;
+export type RequestWithUserBody = RequestGeneral<any, IUserInput>;
 
-export type RequestWithIdQuery = RequestWithUser<{ id: string }> & UserType;
+export type RequestWithIdQuery = RequestGeneral<{ id: string }> & UserType;
 
-export type RequestWhenUpdateUser = RequestWithUser<{ id: string }, IUserDB> & UserType;
+export type RequestWhenUpdateUser = RequestGeneral<{ id: string }, IUserDB> & UserType;
 
-export type RequestWithToken = RequestWithUser & TokenType & UserType;
+export type RequestWithToken = RequestGeneral & TokenType & UserType;
 
-export type RequestPermitsMiddleware = RequestWithUser & TokenType & UserType;
+export type RequestMiddlewareId = RequestGeneral & TokenType;
+
+export type RequestPermitsMiddleware = RequestGeneral & TokenType & UserType;
 
 export { Request, Response, NextFunction };

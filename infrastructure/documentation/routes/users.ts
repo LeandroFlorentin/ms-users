@@ -214,4 +214,108 @@ export default [
       },
     },
   },
+  {
+    path: '/users/get_user_by_id',
+    object: {
+      get: {
+        tags: ['Usuarios'],
+        parameters: [
+          {
+            name: 'id',
+            in: 'query',
+            required: true,
+            schema: { type: 'integer' },
+            example: 1,
+          },
+        ],
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        description: 'Endpoint encargado de traer datos de un usuario especifico.',
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    role: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                    createdAt: {
+                      type: 'string',
+                    },
+                    updatedAt: {
+                      oneOf: [{ type: 'string' }, { type: 'null' }],
+                    },
+                    id: {
+                      type: 'number',
+                    },
+                    email: { type: 'string' },
+                    username: { type: 'string' },
+                  },
+                  example: {
+                    role: ['USER'],
+                    createdAt: '2025-07-12T12:59:56.332Z',
+                    updatedAt: null,
+                    id: 1,
+                    email: 'leandro.florentin@gmail.com',
+                    username: 'leandro5466',
+                  },
+                },
+              },
+            },
+          },
+          400: {
+            description: 'Bad request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    errros: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    errors: ['No se envio id en el query.'],
+                  },
+                },
+              },
+            },
+          },
+          401: {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    errors: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    errors: ['Token no enviado.'],
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
 ];

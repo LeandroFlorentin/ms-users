@@ -27,7 +27,7 @@ async function initializateApp() {
     });
   } catch (error) {
     await sequelize.close();
-    console.log('Error al intentar conectar con la base de datos: ', error);
+    console.error('Error al intentar conectar con la base de datos: ', error);
     process.exit(1);
   }
 }
