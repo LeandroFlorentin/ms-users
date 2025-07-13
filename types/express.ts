@@ -3,7 +3,7 @@ import { IUserInput, IUserDB, IUserDecodedToken } from '&/application/dtos/users
 import { ZodError } from 'zod';
 import { APIError } from '&/shared';
 
-export type Error = ZodError | APIError;
+export type Error = APIError | ZodError;
 
 type TokenType = {
   token?: string;

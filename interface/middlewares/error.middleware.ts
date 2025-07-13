@@ -10,6 +10,8 @@ const isJwtError = (err: Error) => ['TokenExpiredError', 'JsonWebTokenError', 'N
 const isZodError = (err: Error): err is ZodError => err instanceof ZodError;
 
 export const errorMiddleware = (err: Error, _: Request, res: Response, __: NextFunction): void => {
+  const message = err.message || 'Error interno de servidor.';
+
   logger.error(err.message);
 
   if (isJwtError(err)) {
@@ -23,7 +25,6 @@ export const errorMiddleware = (err: Error, _: Request, res: Response, __: NextF
   }
 
   const status = err.code || 500;
-  const message = err.message || 'Internal Server Error';
 
   res.status(status).json({ errors: [message] });
   return;

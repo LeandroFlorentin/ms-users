@@ -7,6 +7,7 @@ export const tokenMiddleware = (req: RequestWithToken, res: Response, next: Next
   const headers = req.headers.authorization;
   if (!headers) manageError('Token no enviado.');
   const parts = headers.split(' ');
+  console.log(parts[0] !== 'Bearer' || parts.length !== 2, parts);
   if (parts[0] !== 'Bearer' || parts.length !== 2) manageError('Formato de headers invalido.');
   const token = parts[1];
   if (!token) manageError('Token no enviado.');
