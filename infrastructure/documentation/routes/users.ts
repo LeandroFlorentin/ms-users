@@ -409,7 +409,7 @@ export default [
     },
   },
   {
-    path: '/users/delete_user',
+    path: '/users/delete',
     object: {
       delete: {
         tags: ['Usuarios'],

@@ -8,7 +8,7 @@ router.post('/create', createUserHandler);
 router.patch('/update', tokenMiddleware, idqueryMiddleware, permitsMiddleware, updateUserHandler);
 router.get('/get_user_by_id', tokenMiddleware, idqueryMiddleware, permitsMiddleware, getByIdUserHandler);
 router.get('/get_users', tokenMiddleware, isAdminMiddleware, getUsersHandler);
-router.delete('/delete_user', tokenMiddleware, idqueryMiddleware, permitsMiddleware, deleteUserHandler);
+router.delete('/delete', tokenMiddleware, idqueryMiddleware, permitsMiddleware, deleteUserHandler);
 router.get('/get_by_username', getUserByEmailOrUserHandler);
 
 export default router;

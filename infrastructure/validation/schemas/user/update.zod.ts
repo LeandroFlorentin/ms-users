@@ -1,7 +1,8 @@
 import { createObject, z } from '&/infrastructure/validation/index';
 
 const options = {
-  email: z.string().email({ message: 'Formato de email inválido.' }).optional(),
+  username: z.string().min(1, { message: 'El nombre de usuario es obligatorio.' }).optional(),
+  email: z.string().min(1, { message: 'El email es obligatorio.' }).email({ message: 'Formato de email inválido.' }).optional(),
   password: z
     .string()
     .min(8, { message: 'La contraseña debe tener al menos 8 caracteres.' })

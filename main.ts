@@ -7,6 +7,7 @@ import { errorMiddleware } from './interface/middlewares/error.middleware';
 import { mainConfig } from './config';
 import { sequelize } from './infrastructure/database';
 import implementaDocumentation from './infrastructure/documentation/documentation';
+import { createTestUser } from './infrastructure/database/helpers';
 
 const { PORT } = mainConfig;
 
@@ -20,8 +21,9 @@ app.use(errorMiddleware);
 async function initializateApp() {
   try {
     await sequelize.authenticate();
-    //await sequelize.sync({ force: true });
+    await sequelize.sync({ force: true });
     app.listen(PORT, () => {
+      createTestUser();
       implementaDocumentation(app, PORT);
       console.log(`Servidor funcionando en puerto ${PORT}`);
     });
@@ -33,3 +35,5 @@ async function initializateApp() {
 }
 
 initializateApp();
+
+export default app;

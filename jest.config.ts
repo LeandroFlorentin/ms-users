@@ -9,6 +9,7 @@ const config: Config = {
   preset: 'ts-jest',
   setupFiles: ['./jest.env.ts'],
   testEnvironment: 'jest-environment-node',
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['**/?(*.)+(spec|test).[tj]s?(x)'],
   roots: ['./tests'],
 };
