@@ -5,7 +5,7 @@
   "scripts": {
     "test": "jest",
     "build": "tsc && tsc-alias",
-    "start": "npm run build && node dist/main.js",
+    "start": "node dist/main.js",
     "dev": "nodemon",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"./**/*.{ts,js,json}\""

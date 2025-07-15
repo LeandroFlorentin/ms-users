@@ -17,11 +17,18 @@ beforeAll(() => {
 
 describe('Testing en endpoint delete user', () => {
   it('Usuario eliminado con éxito', async () => {
-    const headers = { Authorization: 'Bearer ' + token };
+    const sendBody = { username: 'Leandro5624', email: 'leandro.flr@gmail.com.ar', password: 'Afuera123$' };
+    const instanceCreate = getMethod('post', '/users/create');
+    const { body: bodyC } = await instanceCreate.send(sendBody);
+
+    console.log('BEDYC', JSON.stringify(bodyC));
+
+    let new_token = generateToken(bodyC);
+
+    const headers = { Authorization: 'Bearer ' + new_token };
     const instance = getMethod('delete', '/users/delete');
-    const { status, body } = await instance.set(headers).query({ id: 1 });
-    console.log('BEEEDYY', body);
+    const { status, body } = await instance.set(headers).query({ id: bodyC.id });
     expect(status).toBe(200);
-    expect(body).toMatchObject({ message: 'Usuario user_prueba eliminado con éxito.' });
+    expect(body).toMatchObject({ message: `Usuario ${bodyC.username} eliminado con éxito.` });
   });
 });
