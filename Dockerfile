@@ -21,5 +21,4 @@ EXPOSE 3001
 COPY --from=build-application /app/dist ./dist
 COPY package.json ./package.json
 COPY --from=prod-dependencies /app/node_modules ./node_modules
-COPY .env .env
 CMD ["npm", "start"]
