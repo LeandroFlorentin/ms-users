@@ -99,122 +99,6 @@ export default [
     },
   },
   {
-    path: '/users/update',
-    object: {
-      patch: {
-        tags: ['Usuarios'],
-        parameters: [
-          {
-            name: 'id',
-            in: 'query',
-            required: true,
-            schema: { type: 'integer' },
-            example: 1,
-          },
-        ],
-        security: [
-          {
-            bearerAuth: [],
-          },
-        ],
-        description: 'Endpoint para la modificación de usuarios.',
-        requestBody: {
-          content: {
-            'application/json': {
-              schema: {
-                type: 'object',
-                properties: {
-                  username: {
-                    type: 'string',
-                  },
-                  email: {
-                    type: 'string',
-                  },
-                  password: {
-                    type: 'string',
-                  },
-                  role: {
-                    type: 'array',
-                    items: {
-                      type: 'string',
-                    },
-                  },
-                  createdAt: { type: 'string' },
-                  updatedAt: { oneOf: [{ type: 'string' }, { type: 'null' }] },
-                },
-              },
-              example: {
-                username: 'Leandro2040',
-              },
-            },
-          },
-        },
-        responses: {
-          200: {
-            description: 'Success',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    message: {
-                      type: 'string',
-                    },
-                  },
-                },
-                example: {
-                  message: 'Usuario modificado con éxito.',
-                },
-              },
-            },
-          },
-          400: {
-            description: 'Bad request',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    errors: {
-                      type: 'array',
-                      items: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                  example: {
-                    errors: ['Formato de email inválido.', 'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.'],
-                  },
-                },
-              },
-            },
-          },
-          401: {
-            description: 'Unauthorized',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'object',
-                  properties: {
-                    errors: {
-                      type: 'array',
-                      items: {
-                        type: 'string',
-                      },
-                    },
-                  },
-                  example: {
-                    errors: ['Token no enviado.'],
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  {
     path: '/users/get_user_by_id',
     object: {
       get: {
@@ -379,6 +263,122 @@ export default [
                       username: 'leandro5466',
                     },
                   ],
+                },
+              },
+            },
+          },
+          401: {
+            description: 'Unauthorized',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    errors: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    errors: ['Token no enviado.'],
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    path: '/users/update',
+    object: {
+      patch: {
+        tags: ['Usuarios'],
+        parameters: [
+          {
+            name: 'id',
+            in: 'query',
+            required: true,
+            schema: { type: 'integer' },
+            example: 1,
+          },
+        ],
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        description: 'Endpoint para la modificación de usuarios.',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  username: {
+                    type: 'string',
+                  },
+                  email: {
+                    type: 'string',
+                  },
+                  password: {
+                    type: 'string',
+                  },
+                  role: {
+                    type: 'array',
+                    items: {
+                      type: 'string',
+                    },
+                  },
+                  createdAt: { type: 'string' },
+                  updatedAt: { oneOf: [{ type: 'string' }, { type: 'null' }] },
+                },
+              },
+              example: {
+                username: 'Leandro2040',
+              },
+            },
+          },
+        },
+        responses: {
+          200: {
+            description: 'Success',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    message: {
+                      type: 'string',
+                    },
+                  },
+                },
+                example: {
+                  message: 'Usuario modificado con éxito.',
+                },
+              },
+            },
+          },
+          400: {
+            description: 'Bad request',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    errors: {
+                      type: 'array',
+                      items: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  example: {
+                    errors: ['Formato de email inválido.', 'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial.'],
+                  },
                 },
               },
             },

@@ -26,7 +26,6 @@
 - Contenerización:
   - `Docker`: Para contenerizar la aplicación.
 - CI/CD
-
   - `GitHub Actions`: para la ejecución de testing, versionado, buildeo y pusheo de imagenes de docker a dockerhub.
 
 # Tabla de contenidos:
@@ -293,4 +292,6 @@ Ejemplo de respuesta fallida:
 
 # Autor
 
-[@LeandroFlorentin](https://www.linkedin.com/in/leandro-florentin/)
+**Leandro Florentín**  
+🔗 [Perfil de LinkedIn](https://www.linkedin.com/in/leandro-florentin/)  
+📧 leandro.florentin@hotmail.com
