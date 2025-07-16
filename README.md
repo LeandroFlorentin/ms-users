@@ -90,9 +90,9 @@ Una vez tengas tu dialect crea el archivo .env en la raiz del proyecto y ponle t
 
 - [Crear usuario](#crear-usuario)
 - [Traer usuario](#traer-usuario)
-- [Traer usuarios](##traer-usuarios)
-- [Modificar usuario](##modificar-usuario)
-- [Eliminar usuario](##eliminar-usuario)
+- [Traer usuarios](#traer-usuarios)
+- [Modificar usuario](#modificar-usuario)
+- [Eliminar usuario](#eliminar-usuario)
 
 ## Crear usuario
 
