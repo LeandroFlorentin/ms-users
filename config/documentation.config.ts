@@ -1,5 +1,5 @@
-const { URL_BASE } = process.env;
+import { env } from '&/shared/env';
 
 export const configDocumentation = {
-  URL_BASE: URL_BASE as string,
+  URL_BASE: env('URL_BASE') as string,
 };

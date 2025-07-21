@@ -1,5 +1,5 @@
-const { PORT } = process.env;
+import { env } from '&/shared/env';
 
 export const mainConfig = {
-  PORT: Number(PORT) as number,
+  PORT: Number(env('PORT')) as number,
 };

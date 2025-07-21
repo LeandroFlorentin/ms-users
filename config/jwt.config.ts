@@ -1,3 +1,5 @@
+import { env } from '&/shared/env';
+
 export const jwtConfig = {
-  JWT_SECRET: process.env.JWT_SECRET as string,
+  JWT_SECRET: env('JWT_SECRET') as string,
 };
