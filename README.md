@@ -111,6 +111,8 @@ Parametros del body:
 | `email`    | `string` | **Requerido**. Email con el que se registrara al usuario.   |
 | `password` | `string` | **Requerido**. Contraseña del usuario.                      |
 
+Al crear el usuario, se le enviara un correo electronico al email registrado para que pueda activar su cuenta.
+
 Ejemplo de respuesta exitosa:
 
 ```json
