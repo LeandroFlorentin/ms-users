@@ -23,6 +23,7 @@ export async function createTestUser(): Promise<void> {
     password: 'password123$',
     email: 'prueba@gmail.com',
     role: ['ADMIN'],
+    isActive: true,
   };
   let isExistUser = await UserModel.findOne({ where: { username: body.username } });
   if (!isExistUser) await UserModel.create(body);

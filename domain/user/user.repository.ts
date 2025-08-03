@@ -7,4 +7,5 @@ export interface UserRepository {
   get(filters: IFilterGetUsers): Promise<IUserDB[]>;
   delete(id: number): Promise<number>;
   findByEmailAndUsername(body: IUserFindByEmailAndUsername): Promise<IUserDB | null>;
+  isActivate(id: number): Promise<void>;
 }

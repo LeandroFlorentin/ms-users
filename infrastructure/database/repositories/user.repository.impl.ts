@@ -30,4 +30,7 @@ export const userRepository: UserRepository = {
     const user = (await UserModel.findOne({ where: { [Op.or]: obj } })) as { dataValues: IUserDB } | null;
     return user ? (user.dataValues as IUserDB) : null;
   },
+  async isActivate(id: number): Promise<void> {
+    await UserModel.update({ isActive: true }, { where: { id } });
+  },
 };

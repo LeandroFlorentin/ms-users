@@ -9,8 +9,9 @@ export interface UserAttributes {
   role: string[];
   createdAt: Date;
   updatedAt: Date | null;
+  isActive: boolean;
 }
-export class UserModel extends Model<UserAttributes, Omit<UserAttributes, 'id' | 'role' | 'createdAt' | 'updatedAt'>> {
+export class UserModel extends Model<UserAttributes, Omit<UserAttributes, 'id' | 'role' | 'createdAt' | 'updatedAt' | 'isActive'>> implements UserAttributes {
   declare id: number;
   declare username: string;
   declare email: string;
@@ -18,6 +19,7 @@ export class UserModel extends Model<UserAttributes, Omit<UserAttributes, 'id' |
   declare role: string[];
   declare createdAt: Date;
   declare updatedAt: Date | null;
+  declare isActive: boolean;
 }
 
 UserModel.init(
@@ -29,6 +31,7 @@ UserModel.init(
     role: { type: DataTypes.JSON, defaultValue: ['USER'] },
     createdAt: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
     updatedAt: { type: DataTypes.DATE, defaultValue: null },
+    isActive: { type: DataTypes.BOOLEAN, defaultValue: false, allowNull: false },
   },
   { sequelize, tableName: 'users', timestamps: false },
 );

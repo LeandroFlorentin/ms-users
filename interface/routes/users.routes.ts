@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { createUserHandler, updateUserHandler, getByIdUserHandler, getUserByEmailOrUserHandler, getUsersHandler, deleteUserHandler } from '../controllers/users.controller';
+import { createUserHandler, updateUserHandler, getByIdUserHandler, getUserByEmailOrUserHandler, getUsersHandler, deleteUserHandler, activateUserHandler } from '../controllers/users.controller';
 import { tokenMiddleware, permitsMiddleware, idqueryMiddleware, isAdminMiddleware } from '&/interface/middlewares';
 
 const router = Router();
@@ -10,5 +10,6 @@ router.get('/get_user_by_id', tokenMiddleware, idqueryMiddleware, permitsMiddlew
 router.get('/get_users', tokenMiddleware, isAdminMiddleware, getUsersHandler);
 router.delete('/delete', tokenMiddleware, idqueryMiddleware, permitsMiddleware, deleteUserHandler);
 router.get('/get_by_username', getUserByEmailOrUserHandler);
+router.get('/activate', activateUserHandler);
 
 export default router;

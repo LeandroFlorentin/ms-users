@@ -1,15 +1,16 @@
 import { Response, NextFunction } from 'express';
-import { createUser, updateUser, getByIdUser, getUserByEmailOrUser, getUsers, deleteUser } from '&/application/use-cases/user';
+import { createUser, updateUser, getByIdUser, getUserByEmailOrUser, getUsers, deleteUser, activateUser } from '&/application/use-cases/user';
 import { userRepository } from '&/infrastructure/database/repositories/user.repository.impl';
 import { cacheRepository } from '&/infrastructure/cache/repositories/cache.repository.impl';
+import { emailRepository } from '&/infrastructure/email/repository/email.repository.impl';
 import buildLogger from '&/infrastructure/logs';
-import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser, RequestWithIdQuery, RequestGetUsers } from '&/types/express';
+import { RequestWithUsername, RequestWithUserBody, RequestWhenUpdateUser, RequestWithIdQuery, RequestGetUsers, Request } from '&/types/express';
 
 const logger = buildLogger('users');
 
 export const createUserHandler = async (req: RequestWithUserBody, res: Response, next: NextFunction): Promise<void> => {
   try {
-    const user = await createUser(userRepository, cacheRepository, req.body);
+    const user = await createUser(userRepository, cacheRepository, emailRepository, req.body);
     const { password: _, ...restUser } = user;
     logger.log(restUser);
     res.status(200).json(restUser);
@@ -67,6 +68,26 @@ export const getUserByEmailOrUserHandler = async (req: RequestWithUsername, res:
     const user = await getUserByEmailOrUser(userRepository, req.query);
     logger.log(user);
     res.status(200).json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const activateUserHandler = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  try {
+    const { token } = req.query;
+    await activateUser(userRepository, cacheRepository, token as string);
+    res.status(200).send(`
+      <html>
+        <head>
+          <title>Activación de usuario</title>
+        </head>
+        <body style="font-family: sans-serif; text-align: center; margin-top: 50px;">
+          <h1>Usuario activado con éxito</h1>
+          <p>¡Tu cuenta ha sido activada correctamente!</p>
+        </body>
+      </html>
+    `);
   } catch (error) {
     next(error);
   }

@@ -6,7 +6,7 @@ export interface IUserInput {
   password: string;
 }
 
-export type IFilterGetUsers = Omit<UserAttributes, 'password' | 'id' | 'role' | 'updatedAt' | 'createdAt'>;
+export type IFilterGetUsers = Omit<UserAttributes, 'password' | 'id' | 'role' | 'updatedAt' | 'createdAt' | 'isActive'>;
 
 export type IUserDB = UserAttributes;
 
